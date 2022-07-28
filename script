@@ -1,0 +1,1732 @@
+local plr = game.Players.LocalPlayer
+
+for _, v in next, game:GetService("CoreGui"):GetDescendants() do
+    if v.Name == "ScreenGui" then
+        v:Remove()
+    end
+end
+
+game:GetService("UserInputService").InputBegan:Connect(
+    function(Key)
+        if Key.KeyCode == Enum.KeyCode.LeftControl then
+            if game:GetService("CoreGui"):FindFirstChild("ScreenGui").Frame.Visible == true then
+                game:GetService("CoreGui"):FindFirstChild("ScreenGui").Frame.Visible = false
+            else
+                game:GetService("CoreGui"):FindFirstChild("ScreenGui").Frame.Visible = true
+            end
+        end
+    end
+)
+
+local UI = game:GetObjects("rbxassetid://10217624525")[1]
+UI.Frame.GameName.Text = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+UI.Parent = game.CoreGui
+
+local GameName = game:GetService("CoreGui").ScreenGui.Frame.GameName
+
+GameName.Text = tostring(GameName.Text .. " Nolexz")
+
+game:GetService("CoreGui").ScreenGui.Frame.Size = UDim2.new(0, 266, 0.4, 0)
+
+local Player = game:GetService("Players").LocalPlayer
+local Run
+
+--[[
+Message To Active:
+
+[1] = hrpv -- says on your HumanoidRootPart
+
+[2] = headv -- stays on ur head
+
+[3] = longball -- ball top of your head
+
+[4] = orbithead -- ball orbits head
+
+[5] = sit -- makes you sit down
+
+[6] = anchored makes you anchored
+
+[7] = unanchor -- makes you unanchored
+
+]]
+Player.Chatted:Connect(
+    function(Message)
+        if Message:lower():sub(1, #Message) == "hrpv" then
+            if Player.Character:FindFirstChildOfClass("Folder") then
+                for _, v in next, Player.Character:GetDescendants() do
+                    if v:IsA("BasePart") and v.Parent:IsA("Folder") then
+                        local BodyPosition = Instance.new("BodyPosition", v)
+                        BodyPosition.D = 250
+                        BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                        v:BreakJoints()
+                        Run =
+                            game:GetService("RunService").Heartbeat:Connect(
+                            function()
+                                v.CFrame = (Player.Character.HumanoidRootPart.CFrame) * CFrame.Angles(0, 0, 0)
+                                BodyPosition.Position = Player.Character.HumanoidRootPart.Position
+                                v.Velocity = Vector3.new(30, 0, 0)
+                            end
+                        )
+                    end
+                end
+            end
+        end
+        if Message:lower():sub(1, #Message) == "headv" then
+            if Player.Character:FindFirstChildOfClass("Folder") then
+                for _, v in next, Player.Character:GetDescendants() do
+                    if v:IsA("BasePart") and v.Parent:IsA("Folder") then
+                        local BodyPosition = Instance.new("BodyPosition", v)
+                        BodyPosition.D = 250
+                        BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                        v:BreakJoints()
+                        Run =
+                            game:GetService("RunService").Heartbeat:Connect(
+                            function()
+                                v.CFrame = (Player.Character.Head.CFrame) * CFrame.Angles(0, 0, 0)
+                                BodyPosition.Position = Player.Character.Head.Position
+                                v.Velocity = Vector3.new(30, 0, 0)
+                            end
+                        )
+                    end
+                end
+            end
+        end
+        if Message:lower():sub(1, #Message) == "longball" then
+            if Player.Character:FindFirstChildOfClass("Folder") then
+                for _, v in next, Player.Character:GetDescendants() do
+                    if v:IsA("BasePart") and v.Parent:IsA("Folder") then
+                        local BodyPosition = Instance.new("BodyPosition", v)
+                        BodyPosition.D = 250
+                        BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                        v:BreakJoints()
+                        Run =
+                            game:GetService("RunService").Heartbeat:Connect(
+                            function()
+                                v.CFrame = (Player.Character.Head.CFrame * CFrame.new(0, 7, 0)) * CFrame.Angles(0, 0, 0)
+                                BodyPosition.Position = (Player.Character.Head.CFrame * CFrame.new(0, 7, 0)).Position
+                                v.Velocity = Vector3.new(30, 0, 0)
+                            end
+                        )
+                    end
+                end
+            end
+        end
+        if Message:lower():sub(1, #Message) == "sit" then
+            plr.Character.Humanoid.Sit = true
+        end
+        if Message:lower():sub(1, #Message) == "anchor" then
+            plr.Character.HumanoidRootPart.Anchored = true
+        end
+        if Message:lower():sub(1, #Message) == "unanchor" then
+            plr.Character.HumanoidRootPart.Anchored = false
+        end
+        if Message:lower():sub(1, #Message) == "rejoin" then
+            game:GetService("TeleportService"):Teleport(game.PlaceId, plr)
+        end
+        if Message:lower():sub(1, #Message) == "orbithead" then
+            if Player.Character:FindFirstChildOfClass("Folder") then
+                for _, v in next, Player.Character:GetDescendants() do
+                    if v:IsA("BasePart") and v.Parent:IsA("Folder") then
+                        v:BreakJoints()
+                        while true do
+                            for i = 1, 360, 5 do
+                                v.CFrame =
+                                    (Player.Character.Head.CFrame) * CFrame.Angles(0, math.rad(i), 0) *
+                                    CFrame.new(5, 0, 0)
+                                task.wait()
+                            end
+                            v.Velocity = Vector3.new(30, 0, 0)
+                        end
+                    end
+                end
+            end
+        end
+    end
+)
+
+local Enabled = false
+local Settings = {
+    ["true"] = {
+        Color = Color3.fromRGB(0, 190, 0),
+        Size = UDim2.new(0, 240, 0, 56)
+    },
+    ["false"] = {
+        Color = Color3.fromRGB(190, 0, 0),
+        Size = UDim2.new(0, 240, 0, 0)
+    }
+}
+plr.CharacterAdded:Connect(
+    function(chr)
+        chr:WaitForChild("Humanoid").Changed:Connect(
+            function(fa)
+                if fa == "WalkSpeed" then
+                    chr.Humanoid.WalkSpeed = _G.PhenomHubSpeed or 30
+                end
+            end
+        )
+    end
+)
+
+plr.CharacterAdded:Connect(
+    function(chr)
+        chr:WaitForChild("Humanoid").Changed:Connect(
+            function(fa)
+                if fa == "JumpPower" then
+                    chr.Humanoid.JumpPower = _G.PhenomHubJump or 100
+                end
+            end
+        )
+    end
+)
+
+plr.Character.Humanoid.Changed:Connect(
+    function(fa)
+        if fa == "JumpPower" then
+            plr.Character.Humanoid.JumpPower = _G.PhenomHubJump or 100
+        end
+    end
+)
+
+plr.Character.Humanoid.Changed:Connect(
+    function(fa)
+        if fa == "WalkSpeed" then
+            plr.Character.Humanoid.WalkSpeed = _G.PhenomHubSpeed or 30
+        end
+    end
+)
+
+UI.Frame.Frame.LPD.Jump.Input.FocusLost:Connect(
+    function()
+        _G.PhenomHubJump = tonumber(UI.Frame.Frame.LPD.Jump.Input.Text)
+        plr.Character.Humanoid.JumpPower = _G.PhenomHubJump
+    end
+)
+UI.Frame.Frame.LPD.Speed.Input.FocusLost:Connect(
+    function()
+        _G.PhenomHubSpeed = tonumber(UI.Frame.Frame.LPD.Speed.Input.Text)
+        plr.Character.Humanoid.WalkSpeed = _G.PhenomHubSpeed
+    end
+)
+
+UI.Frame.Frame.LP.Button.MouseButton1Click:Connect(
+    function()
+        Enabled = not Enabled
+
+        UI.Frame.Frame.LPD.Visible = Enabled
+        UI.Frame.Frame.LP.Button.BackgroundColor3 = Settings[tostring(Enabled)].Color
+    end
+)
+
+game:GetService("CoreGui").ScreenGui.Frame.Frame.AB.Label.Text = "Dunk"
+
+UI.Frame.Frame.AB.Button.MouseButton1Click:Connect(
+    function()
+        game:GetService("StarterGui"):SetCore(
+            "SendNotification",
+            {
+                Title = "Keybinds",
+                Text = "Aim1 = v, Aim2 = f, Default = q, Dunk = y",
+                Duration = 10,
+                Button1 = "OK!"
+            }
+        )
+        local Player = game:GetService("Players").LocalPlayer
+        local Workspace = game:GetService("Workspace")
+        local Aiming = (Workspace:FindFirstChild("Aim") or Workspace:FindFirstChild("Aim2"))
+
+        if Aiming then
+            Aiming:Remove()
+        end
+
+        local Mouse = Player:GetMouse()
+        local Prefix = {
+            Dunk = "y",
+            Aim = "v",
+            Aim2 = "f",
+            Default = "q"
+        }
+
+        Mouse.KeyDown:Connect(
+            function(Key)
+                if Key == Prefix.Dunk then
+                    if Aiming and Wait() then
+                        local Folder = Player.Character:FindFirstChildOfClass("Folder")
+                        if Folder and Wait() then
+                            local BodyPosition = Instance.new("BodyPosition", Folder.Handle)
+                            BodyPosition.D = 250
+                            BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                            local Run
+                            Run =
+                                game:GetService("RunService").Heartbeat:Connect(
+                                function()
+                                    Folder.Handle.CFrame = (Aiming.CFrame) * CFrame.Angles(0, 0, 0)
+                                    BodyPosition.Position = Aiming.Position
+                                    Folder.Handle.Velocity = Vector3.new(30, 0, 0)
+                                end
+                            )
+                            Wait(1.2)
+                            if Run then
+                                Run:Disconnect()
+                            end
+                            Folder.Handle:FindFirstChildOfClass("BodyPosition"):Remove()
+                        end
+                    end
+                end
+                if Key == Prefix.Aim then
+                    if Workspace:FindFirstChild("Aim2") then
+                        Workspace:FindFirstChild("Aim2"):Remove()
+                    end
+                    if Aiming then
+                        Aiming:Remove()
+                    end
+                    local Aim = Instance.new("Part", Workspace)
+                    Aim.Anchored = true
+                    Aim.CanCollide = false
+                    Aim.Transparency = 0.5
+                    Aim.Size = Vector3.new(10, 10, 10)
+                    Aim.Name = "Aim"
+                    while task.wait() do
+                        Aim.CFrame = CFrame.new(-16.9939995, 41.5, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 43, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 42.5, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 44.5, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 44, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 40, -45.9039993)
+                    end
+                end
+                if Key == Prefix.Aim2 then
+                    if Workspace:FindFirstChild("Aim") then
+                        Workspace:FindFirstChild("Aim"):Remove()
+                    end
+                    if Aiming then
+                        Aiming:Remove()
+                    end
+                    local Aim2 = Instance.new("Part", Workspace)
+                    Aim2.Anchored = true
+                    Aim2.CanCollide = false
+                    Aim2.Transparency = 0.5
+                    Aim2.Size = Vector3.new(10, 10, 10)
+                    Aim2.Name = "Aim2"
+                    while task.wait() do
+                        Aim2.CFrame = CFrame.new(-16.8939991, 41.5, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 43, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 42.5, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 44.5, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 44, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 40, 142.925003)
+                    end
+                end
+                if Key == Prefix.Default then
+                    for _, v in next, Workspace:GetDescendants() do
+                        if v:IsA("Part") and v.Name == "Aim" or v.Name == "Aim2" then
+                            v:Remove()
+                        end
+                    end
+                end
+            end
+        )
+    end
+)
+
+local Dunk = UI.Frame.Frame.AB:Clone()
+Dunk.Name = "DK"
+Dunk.Parent = UI.Frame.Frame
+game:GetService("CoreGui").ScreenGui.Frame.Frame.DK.Label.Text = "AimBot"
+Dunk.Button.MouseButton1Click:Connect(
+    function()
+        game:GetService("StarterGui"):SetCore(
+            "SendNotification",
+            {
+                Title = "Keybinds",
+                Text = "Aim1 = v, Aim2 = f, Default = q, Aimbot = x",
+                Duration = 10,
+                Button1 = "OK!"
+            }
+        )
+        local Player = game:GetService("Players").LocalPlayer
+        local Workspace = game:GetService("Workspace")
+        local Aiming = (Workspace:FindFirstChild("Aim") or Workspace:FindFirstChild("Aim2"))
+
+        if Aiming then
+            Aiming:Remove()
+        end
+
+        local Mouse = Player:GetMouse()
+        local Prefix = {
+            Dunk = "x",
+            Aim = "v",
+            Aim2 = "f",
+            Default = "q"
+        }
+
+        Mouse.KeyDown:Connect(
+            function(Key)
+                if Key == Prefix.Dunk then
+                    if Aiming and Wait() then
+                        local Folder = Player.Character:FindFirstChildOfClass("Folder")
+                        if Folder and Wait() then
+                            local BodyPosition = Instance.new("BodyPosition", Folder.Handle)
+                            BodyPosition.D = 250
+                            BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                            Folder.Handle:FindFirstChildOfClass("Weld"):Remove()
+                            local Run
+                            Run =
+                                game:GetService("RunService").Heartbeat:Connect(
+                                function()
+                                    Folder.Handle.CFrame = (Aiming.CFrame) * CFrame.Angles(0, 0, 0)
+                                    BodyPosition.Position = Aiming.Position
+                                    Folder.Handle.Velocity = Vector3.new(30, 0, 0)
+                                    for _, v in next, Player.Character:GetDescendants() do
+                                        if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+                                            v["Velocity"] = Vector3.new(30, 0, 0)
+                                        end
+                                    end
+                                end
+                            )
+                            Wait(1.2)
+                            if Run then
+                                Run:Disconnect()
+                            end
+                            Folder.Handle:FindFirstChildOfClass("BodyPosition"):Remove()
+                        end
+                    end
+                end
+                if Key == Prefix.Aim then
+                    if Workspace:FindFirstChild("Aim2") then
+                        Workspace:FindFirstChild("Aim2"):Remove()
+                    end
+                    if Aiming then
+                        Aiming:Remove()
+                    end
+                    local Aim = Instance.new("Part", Workspace)
+                    Aim.Anchored = true
+                    Aim.CanCollide = false
+                    Aim.Transparency = 0.5
+                    Aim.Size = Vector3.new(10, 10, 10)
+                    Aim.Name = "Aim"
+                    while task.wait() do
+                        Aim.CFrame = CFrame.new(-16.9939995, 41.5, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 43, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 42.5, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 44.5, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 44, -45.9039993)
+                        task.wait()
+                        Aim.CFrame = CFrame.new(-16.9939995, 40, -45.9039993)
+                    end
+                end
+                if Key == Prefix.Aim2 then
+                    if Workspace:FindFirstChild("Aim") then
+                        Workspace:FindFirstChild("Aim"):Remove()
+                    end
+                    if Aiming then
+                        Aiming:Remove()
+                    end
+                    local Aim2 = Instance.new("Part", Workspace)
+                    Aim2.Anchored = true
+                    Aim2.CanCollide = false
+                    Aim2.Transparency = 0.5
+                    Aim2.Size = Vector3.new(10, 10, 10)
+                    Aim2.Name = "Aim2"
+                    while task.wait() do
+                        Aim2.CFrame = CFrame.new(-16.8939991, 41.5, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 43, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 42.5, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 44.5, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 44, 142.925003)
+                        task.wait()
+                        Aim2.CFrame = CFrame.new(-16.8939991, 40, 142.925003)
+                    end
+                end
+                if Key == Prefix.Default then
+                    for _, v in next, Workspace:GetDescendants() do
+                        if v:IsA("Part") and v.Name == "Aim" or v.Name == "Aim2" then
+                            v:Remove()
+                        end
+                    end
+                end
+            end
+        )
+    end
+)
+
+local MC = UI.Frame.Frame.AB:Clone()
+MC.Name = "MC"
+MC.Parent = UI.Frame.Frame
+game:GetService("CoreGui").ScreenGui.Frame.Frame.MC.Label.Text = "MouseControl"
+
+MC.Button.MouseButton1Click:Connect(
+    function()
+        game:GetService("StarterGui"):SetCore(
+            "SendNotification",
+            {
+                Title = "Keybinds",
+                Text = "MouseControl = e, StopMouseControl = u",
+                Duration = 10,
+                Button1 = "OK!"
+            }
+        )
+        local Player = game:GetService("Players").LocalPlayer
+        local Workspace = game:GetService("Workspace")
+        local Run
+
+        local Mouse = Player:GetMouse()
+        local Prefix = {
+            MouseControl = "e",
+            Stop = "u"
+        }
+
+        Mouse.KeyDown:Connect(
+            function(Key)
+                if Key == Prefix.MouseControl then
+                    local Folder = Player.Character:FindFirstChildOfClass("Folder")
+                    if Folder and Wait() then
+                        local BodyPosition = Instance.new("BodyPosition", Folder.Handle)
+                        BodyPosition.D = 250
+                        BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                        Folder.Handle:FindFirstChildOfClass("Weld"):Remove()
+                        Run =
+                            game:GetService("RunService").Heartbeat:Connect(
+                            function()
+                                Folder.Handle.CFrame =
+                                    (CFrame.new(Mouse.Hit.Position.X, Mouse.Hit.Position.Y, Mouse.Hit.Position.Z)) *
+                                    CFrame.Angles(0, 0, 0)
+                                BodyPosition.Position =
+                                    Vector3.new(Mouse.Hit.Position.X, Mouse.Hit.Position.Y, Mouse.Hit.Position.Z)
+                                Folder.Handle.Velocity = Vector3.new(30, 0, 0)
+                                for _, v in next, Player.Character:GetDescendants() do
+                                    if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+                                        v.Velocity = Vector3.new(30, 0, 0)
+                                    end
+                                end
+                            end
+                        )
+                    end
+                end
+                if Key == Prefix.Stop then
+                    if Run then
+                        Run:Disconnect()
+                    end
+                    Folder.Handle:FindFirstChildOfClass("BodyPosition"):Remove()
+                end
+            end
+        )
+    end
+)
+
+local okbru = UI.Frame.Frame.AB:Clone()
+okbru.Name = "ok"
+okbru.Parent = UI.Frame.Frame
+game:GetService("CoreGui").ScreenGui.Frame.Frame.ok.Label.Text = "No OBF"
+okbru.Button.MouseButton1Click:Connect(
+    function()
+        for _, v in next, workspace.Stadium:GetDescendants() do
+            if v:IsA("Part") and v:FindFirstChild("TouchInterest") and v.CanCollide == false then
+                v:Remove()
+            end
+        end
+        game:GetService("StarterGui"):SetCore(
+            "SendNotification",
+            {
+                Title = "Notification",
+                Text = "Done!",
+                Duration = 10
+            }
+        )
+    end
+)
+
+local balls = UI.Frame.Frame.AB:Clone()
+balls.Name = "touched"
+balls.Parent = UI.Frame.Frame
+game:GetService("CoreGui").ScreenGui.Frame.Frame.touched.Label.Text = "One Time GetBall"
+balls.Button.MouseButton1Click:Connect(
+    function()
+        local Player = game:GetService("Players").LocalPlayer
+        local Workspace = game:GetService("Workspace")
+        local RunService = game:GetService("RunService")
+
+        for _, v in next, Workspace:GetDescendants() do
+            if v:IsA("BasePart") and v.Name == "Handle" and v.Parent:IsA("Folder") then
+                v.CFrame = Player.Character.HumanoidRootPart.CFrame
+            end
+        end
+
+        plr:GetMouse().KeyDown:Connect(
+            function(Key)
+                if Key == "f" then
+                    for _, v in next, Workspace:GetDescendants() do
+                        if v:IsA("BasePart") and v.Name == "Handle" and v.Parent:IsA("Folder") then
+                            v.CFrame = Player.Character.HumanoidRootPart.CFrame
+                        end
+                    end
+                end
+            end
+        )
+        game:GetService("StarterGui"):SetCore(
+            "SendNotification",
+            {
+                Title = "Notification",
+                Text = "Press F to get ball again.",
+                Duration = 10
+            }
+        )
+    end
+)
+
+local autodisnuts = UI.Frame.Frame.AB:Clone()
+autodisnuts.Name = "touchedmyballs"
+autodisnuts.Parent = UI.Frame.Frame
+game:GetService("CoreGui").ScreenGui.Frame.Frame.touchedmyballs.Label.Text = "Auto Score"
+autodisnuts.Button.MouseButton1Click:Connect(
+    function()
+        local Table = {"HitRim1", "HitRim2", "HitRim3", "HitRim4"}
+
+        function HitRimLargeSize()
+            for _, v in next, workspace.Stadium:GetDescendants() do
+                if v:IsA("BasePart") and table.find(Table, v.Name) then
+                    v.Size = Vector3.new(200, 200, 200)
+                    v.CanCollide = false
+                end
+            end
+        end
+
+        function HitRimSmallSize()
+            for _, v in next, workspace.Stadium:GetDescendants() do
+                if v:IsA("BasePart") and table.find(Table, v.Name) then
+                    v.Size = Vector3.new(5, 2, 5)
+                    v.CanCollide = true
+                end
+            end
+        end
+
+        local Player = game:GetService("Players").LocalPlayer
+
+        function BallCheck()
+            for _, v in next, Player.Character:GetDescendants() do
+                if v:IsA("BasePart") and v.Name == "Handle" and v.Parent:IsA("Folder") then
+                    return v
+                end
+            end
+        end
+
+        local Mouse = Player:GetMouse()
+
+        local Prefix = {
+            ChangeBallSize = "x"
+        }
+
+        Mouse.KeyDown:Connect(
+            function(Key)
+                if Key == Prefix.ChangeBallSize then
+                    BallCheck()
+
+                    local Run
+                    local RunService = game:GetService("RunService")
+
+                    Run =
+                        RunService.Heartbeat:Connect(
+                        function()
+                            BallCheck()
+                            HitRimLargeSize()
+                        end
+                    )
+
+                    if Run and Wait(0.2) then
+                        Run:Disconnect()
+                    end
+                    HitRimSmallSize()
+                end
+            end
+        )
+        game:GetService("StarterGui"):SetCore(
+            "SendNotification",
+            {
+                Title = "Notification",
+                Text = "AutoScore Enabled! Key: (X)",
+                Duration = 10
+            }
+        )
+    end
+)
+
+local loopgetball = UI.Frame.Frame.AB:Clone()
+loopgetball.Name = "loopball"
+loopgetball.Parent = UI.Frame.Frame
+game:GetService("CoreGui").ScreenGui.Frame.Frame.loopball.Label.Text = "Loop GetBall"
+loopgetball.Button.MouseButton1Click:Connect(
+    function()
+        local Player = game:GetService("Players").LocalPlayer
+        local Workspace = game:GetService("Workspace")
+        local RunService = game:GetService("RunService")
+        local Run
+
+        Run =
+            RunService.RenderStepped:Connect(
+            function()
+                for _, v in next, Workspace:GetDescendants() do
+                    if v:IsA("BasePart") and v.Name == "Handle" and v.Parent:IsA("Folder") then
+                        v.CFrame = Player.Character.HumanoidRootPart.CFrame
+                    end
+                end
+            end
+        )
+        plr:GetMouse().KeyDown:Connect(
+            function(Key)
+                if Key == "j" then
+                    if Run then
+                        Run:Disconnect()
+                    end
+                end
+            end
+        )
+        game:GetService("StarterGui"):SetCore(
+            "SendNotification",
+            {
+                Title = "Notification",
+                Text = "LoopGetBall Activated! Key = J, To Stop.",
+                Duration = 10
+            }
+        )
+    end
+)
+
+local bighoops = UI.Frame.Frame.AB:Clone()
+bighoops.Name = "d"
+bighoops.Parent = UI.Frame.Frame
+game:GetService("CoreGui").ScreenGui.Frame.Frame.d.Label.Text = "Big Hoops"
+bighoops.Button.MouseButton1Click:Connect(
+    function()
+        local Table = {
+            "Face",
+            "block",
+            "SBrick",
+            "Goal",
+            "Goal1",
+            "HitRim1",
+            "HitRim2",
+            "HitRim3",
+            "HitRim4",
+            "Net",
+            "Score"
+        }
+
+        game:GetService("RunService").Heartbeat:Connect(
+            function()
+                for _, v in next, game:GetService("Workspace").Stadium:GetDescendants() do
+                    if v:IsA("BasePart") and table.find(Table, v.Name) then
+                        v.Size = Vector3.new(15, 15, 15)
+                    end
+                    if v:IsA("BasePart") and v.Name == "Net" then
+                        v.Mesh.Scale = Vector3.new(10, 10, 10)
+                    end
+                    if v:IsA("BasePart") and v.Name == "Part" and v:FindFirstChildOfClass("BlockMesh") then
+                        v.Mesh.Scale = Vector3.new(15, 1, 10)
+                    end
+                end
+            end
+        )
+        game:GetService("StarterGui"):SetCore(
+            "SendNotification",
+            {
+                Title = "Notification",
+                Text = "Enabled big hoops rejoin to stop",
+                Duration = 10
+            }
+        )
+    end
+)
+
+local SilentAimbot = UI.Frame.Frame.AB:Clone()
+SilentAimbot.Name = "SA"
+SilentAimbot.Parent = UI.Frame.Frame
+game:GetService("CoreGui").ScreenGui.Frame.Frame.SA.Label.Text = "SilentAimbot"
+MouseControls.Button.MouseButton1Click:Connect(
+    function()
+        local plr = game.Players.LocalPlayer
+
+        plr:GetMouse().KeyDown:Connect(
+            function(Key)
+                if Key == "h" then
+                    if game:GetService("CoreGui"):FindFirstChild("ScreenGui") then
+                        game:GetService("CoreGui"):FindFirstChild("ScreenGui"):Remove()
+                    end
+                end
+            end
+        )
+
+        local UI = game:GetObjects("rbxassetid://10217624525")[1]
+        UI.Frame.GameName.Text = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+        UI.Parent = game.CoreGui
+        local Enabled = false
+        local Settings = {
+            ["true"] = {
+                Color = Color3.fromRGB(0, 190, 0),
+                Size = UDim2.new(0, 240, 0, 56)
+            },
+            ["false"] = {
+                Color = Color3.fromRGB(190, 0, 0),
+                Size = UDim2.new(0, 240, 0, 0)
+            }
+        }
+        plr.CharacterAdded:Connect(
+            function(chr)
+                chr:WaitForChild("Humanoid").Changed:Connect(
+                    function(fa)
+                        if fa == "WalkSpeed" then
+                            chr.Humanoid.WalkSpeed = _G.PhenomHubSpeed or 30
+                        end
+                    end
+                )
+            end
+        )
+
+        plr.CharacterAdded:Connect(
+            function(chr)
+                chr:WaitForChild("Humanoid").Changed:Connect(
+                    function(fa)
+                        if fa == "JumpPower" then
+                            chr.Humanoid.JumpPower = _G.PhenomHubJump or 100
+                        end
+                    end
+                )
+            end
+        )
+
+        plr.Character.Humanoid.Changed:Connect(
+            function(fa)
+                if fa == "JumpPower" then
+                    plr.Character.Humanoid.JumpPower = _G.PhenomHubJump or 100
+                end
+            end
+        )
+
+        plr.Character.Humanoid.Changed:Connect(
+            function(fa)
+                if fa == "WalkSpeed" then
+                    plr.Character.Humanoid.WalkSpeed = _G.PhenomHubSpeed or 30
+                end
+            end
+        )
+
+        UI.Frame.Frame.LPD.Jump.Input.FocusLost:Connect(
+            function()
+                _G.PhenomHubJump = tonumber(UI.Frame.Frame.LPD.Jump.Input.Text)
+                plr.Character.Humanoid.JumpPower = _G.PhenomHubJump
+            end
+        )
+        UI.Frame.Frame.LPD.Speed.Input.FocusLost:Connect(
+            function()
+                _G.PhenomHubSpeed = tonumber(UI.Frame.Frame.LPD.Speed.Input.Text)
+                plr.Character.Humanoid.WalkSpeed = _G.PhenomHubSpeed
+            end
+        )
+
+        UI.Frame.Frame.LP.Button.MouseButton1Click:Connect(
+            function()
+                Enabled = not Enabled
+
+                UI.Frame.Frame.LPD.Visible = Enabled
+                UI.Frame.Frame.LP.Button.BackgroundColor3 = Settings[tostring(Enabled)].Color
+            end
+        )
+
+        game:GetService("CoreGui").ScreenGui.Frame.Frame.AB.Label.Text = "Dunk"
+
+        UI.Frame.Frame.AB.Button.MouseButton1Click:Connect(
+            function()
+                game:GetService("StarterGui"):SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Keybinds",
+                        Text = "Aim1 = v, Aim2 = f, Default = q, Dunk = y",
+                        Duration = 10,
+                        Button1 = "OK!"
+                    }
+                )
+                local Player = game:GetService("Players").LocalPlayer
+                local Workspace = game:GetService("Workspace")
+                local Aiming = (Workspace:FindFirstChild("Aim") or Workspace:FindFirstChild("Aim2"))
+
+                if Aiming then
+                    Aiming:Remove()
+                end
+
+                local Mouse = Player:GetMouse()
+                local Prefix = {
+                    Dunk = "y",
+                    Aim = "v",
+                    Aim2 = "f",
+                    Default = "q"
+                }
+
+                Mouse.KeyDown:Connect(
+                    function(Key)
+                        if Key == Prefix.Dunk then
+                            if Aiming and Wait() then
+                                local Folder = Player.Character:FindFirstChildOfClass("Folder")
+                                if Folder and Wait() then
+                                    local BodyPosition = Instance.new("BodyPosition", Folder.Handle)
+                                    BodyPosition.D = 250
+                                    BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                                    local Run
+                                    Run =
+                                        game:GetService("RunService").Heartbeat:Connect(
+                                        function()
+                                            Folder.Handle.CFrame = (Aiming.CFrame) * CFrame.Angles(0, 0, 0)
+                                            BodyPosition.Position = Aiming.Position
+                                            Folder.Handle.Velocity = Vector3.new(30, 0, 0)
+                                        end
+                                    )
+                                    Wait(1.2)
+                                    if Run then
+                                        Run:Disconnect()
+                                    end
+                                    Folder.Handle:FindFirstChildOfClass("BodyPosition"):Remove()
+                                end
+                            end
+                        end
+                        if Key == Prefix.Aim then
+                            if Workspace:FindFirstChild("Aim2") then
+                                Workspace:FindFirstChild("Aim2"):Remove()
+                            end
+                            if Aiming then
+                                Aiming:Remove()
+                            end
+                            local Aim = Instance.new("Part", Workspace)
+                            Aim.Anchored = true
+                            Aim.CanCollide = false
+                            Aim.Transparency = 0.5
+                            Aim.Size = Vector3.new(10, 10, 10)
+                            Aim.Name = "Aim"
+                            while task.wait() do
+                                Aim.CFrame = CFrame.new(-16.9939995, 41.5, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 43, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 42.5, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 44.5, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 44, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 40, -45.9039993)
+                            end
+                        end
+                        if Key == Prefix.Aim2 then
+                            if Workspace:FindFirstChild("Aim") then
+                                Workspace:FindFirstChild("Aim"):Remove()
+                            end
+                            if Aiming then
+                                Aiming:Remove()
+                            end
+                            local Aim2 = Instance.new("Part", Workspace)
+                            Aim2.Anchored = true
+                            Aim2.CanCollide = false
+                            Aim2.Transparency = 0.5
+                            Aim2.Size = Vector3.new(10, 10, 10)
+                            Aim2.Name = "Aim2"
+                            while task.wait() do
+                                Aim2.CFrame = CFrame.new(-16.8939991, 41.5, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 43, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 42.5, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 44.5, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 44, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 40, 142.925003)
+                            end
+                        end
+                        if Key == Prefix.Default then
+                            for _, v in next, Workspace:GetDescendants() do
+                                if v:IsA("Part") and v.Name == "Aim" or v.Name == "Aim2" then
+                                    v:Remove()
+                                end
+                            end
+                        end
+                    end
+                )
+            end
+        )
+
+        local Dunk = UI.Frame.Frame.AB:Clone()
+        Dunk.Name = "DK"
+        Dunk.Parent = UI.Frame.Frame
+        game:GetService("CoreGui").ScreenGui.Frame.Frame.DK.Label.Text = "AimBot"
+        Dunk.Button.MouseButton1Click:Connect(
+            function()
+                game:GetService("StarterGui"):SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Keybinds",
+                        Text = "Aim1 = v, Aim2 = f, Default = q, Aimbot = x",
+                        Duration = 10,
+                        Button1 = "OK!"
+                    }
+                )
+                local Player = game:GetService("Players").LocalPlayer
+                local Workspace = game:GetService("Workspace")
+                local Aiming = (Workspace:FindFirstChild("Aim") or Workspace:FindFirstChild("Aim2"))
+
+                if Aiming then
+                    Aiming:Remove()
+                end
+
+                local Mouse = Player:GetMouse()
+                local Prefix = {
+                    Dunk = "x",
+                    Aim = "v",
+                    Aim2 = "f",
+                    Default = "q"
+                }
+
+                Mouse.KeyDown:Connect(
+                    function(Key)
+                        if Key == Prefix.Dunk then
+                            if Aiming and Wait() then
+                                local Folder = Player.Character:FindFirstChildOfClass("Folder")
+                                if Folder and Wait() then
+                                    local BodyPosition = Instance.new("BodyPosition", Folder.Handle)
+                                    BodyPosition.D = 250
+                                    BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                                    Folder.Handle:FindFirstChildOfClass("Weld"):Remove()
+                                    local Run
+                                    Run =
+                                        game:GetService("RunService").Heartbeat:Connect(
+                                        function()
+                                            Folder.Handle.CFrame = (Aiming.CFrame) * CFrame.Angles(0, 0, 0)
+                                            BodyPosition.Position = Aiming.Position
+                                            Folder.Handle.Velocity = Vector3.new(30, 0, 0)
+                                            for _, v in next, Player.Character:GetDescendants() do
+                                                if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+                                                    v["Velocity"] = Vector3.new(30, 0, 0)
+                                                end
+                                            end
+                                        end
+                                    )
+                                    Wait(1.2)
+                                    if Run then
+                                        Run:Disconnect()
+                                    end
+                                    Folder.Handle:FindFirstChildOfClass("BodyPosition"):Remove()
+                                end
+                            end
+                        end
+                        if Key == Prefix.Aim then
+                            if Workspace:FindFirstChild("Aim2") then
+                                Workspace:FindFirstChild("Aim2"):Remove()
+                            end
+                            if Aiming then
+                                Aiming:Remove()
+                            end
+                            local Aim = Instance.new("Part", Workspace)
+                            Aim.Anchored = true
+                            Aim.CanCollide = false
+                            Aim.Transparency = 0.5
+                            Aim.Size = Vector3.new(10, 10, 10)
+                            Aim.Name = "Aim"
+                            while task.wait() do
+                                Aim.CFrame = CFrame.new(-16.9939995, 41.5, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 43, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 42.5, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 44.5, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 44, -45.9039993)
+                                task.wait()
+                                Aim.CFrame = CFrame.new(-16.9939995, 40, -45.9039993)
+                            end
+                        end
+                        if Key == Prefix.Aim2 then
+                            if Workspace:FindFirstChild("Aim") then
+                                Workspace:FindFirstChild("Aim"):Remove()
+                            end
+                            if Aiming then
+                                Aiming:Remove()
+                            end
+                            local Aim2 = Instance.new("Part", Workspace)
+                            Aim2.Anchored = true
+                            Aim2.CanCollide = false
+                            Aim2.Transparency = 0.5
+                            Aim2.Size = Vector3.new(10, 10, 10)
+                            Aim2.Name = "Aim2"
+                            while task.wait() do
+                                Aim2.CFrame = CFrame.new(-16.8939991, 41.5, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 43, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 42.5, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 44.5, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 44, 142.925003)
+                                task.wait()
+                                Aim2.CFrame = CFrame.new(-16.8939991, 40, 142.925003)
+                            end
+                        end
+                        if Key == Prefix.Default then
+                            for _, v in next, Workspace:GetDescendants() do
+                                if v:IsA("Part") and v.Name == "Aim" or v.Name == "Aim2" then
+                                    v:Remove()
+                                end
+                            end
+                        end
+                    end
+                )
+            end
+        )
+
+        local MouseControls = UI.Frame.Frame.AB:Clone()
+        MouseControls.Name = "MC"
+        MouseControls.Parent = UI.Frame.Frame
+        game:GetService("CoreGui").ScreenGui.Frame.Frame.MC.Label.Text = "MouseControl"
+        MouseControls.Button.MouseButton1Click:Connect(
+            function()
+                game:GetService("StarterGui"):SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Keybinds",
+                        Text = "MouseControl = e, StopMouseControl = u",
+                        Duration = 10,
+                        Button1 = "OK!"
+                    }
+                )
+                local Player = game:GetService("Players").LocalPlayer
+                local Workspace = game:GetService("Workspace")
+                local Run
+
+                local Mouse = Player:GetMouse()
+                local Prefix = {
+                    MouseControl = "e",
+                    Stop = "u"
+                }
+
+                Mouse.KeyDown:Connect(
+                    function(Key)
+                        if Key == Prefix.MouseControl then
+                            local Folder = Player.Character:FindFirstChildOfClass("Folder")
+                            if Folder and Wait() then
+                                local BodyPosition = Instance.new("BodyPosition", Folder.Handle)
+                                BodyPosition.D = 250
+                                BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                                Folder.Handle:FindFirstChildOfClass("Weld"):Remove()
+                                Run =
+                                    game:GetService("RunService").Heartbeat:Connect(
+                                    function()
+                                        Folder.Handle.CFrame =
+                                            (CFrame.new(
+                                            Mouse.Hit.Position.X,
+                                            Mouse.Hit.Position.Y,
+                                            Mouse.Hit.Position.Z
+                                        )) * CFrame.Angles(0, 0, 0)
+                                        BodyPosition.Position =
+                                            Vector3.new(
+                                            Mouse.Hit.Position.X,
+                                            Mouse.Hit.Position.Y,
+                                            Mouse.Hit.Position.Z
+                                        )
+                                        Folder.Handle.Velocity = Vector3.new(30, 0, 0)
+                                        for _, v in next, Player.Character:GetDescendants() do
+                                            if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+                                                v.Velocity = Vector3.new(30, 0, 0)
+                                            end
+                                        end
+                                    end
+                                )
+                            end
+                        end
+                        if Key == Prefix.Stop then
+                            if Run then
+                                Run:Disconnect()
+                            end
+                            Folder.Handle:FindFirstChildOfClass("BodyPosition"):Remove()
+                        end
+                    end
+                )
+            end
+        )
+
+        local SilentAimbot = UI.Frame.Frame.AB:Clone()
+        SilentAimbot.Name = "SA"
+        SilentAimbot.Parent = UI.Frame.Frame
+        game:GetService("CoreGui").ScreenGui.Frame.Frame.SA.Label.Text = "SilentAimbot"
+        MouseControls.Button.MouseButton1Click:Connect(
+            function()
+                local plr = game.Players.LocalPlayer
+
+                plr:GetMouse().KeyDown:Connect(
+                    function(Key)
+                        if Key == "h" then
+                            if game:GetService("CoreGui"):FindFirstChild("ScreenGui") then
+                                game:GetService("CoreGui"):FindFirstChild("ScreenGui"):Remove()
+                            end
+                        end
+                    end
+                )
+
+                local UI = game:GetObjects("rbxassetid://10217624525")[1]
+                UI.Frame.GameName.Text = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+                UI.Parent = game.CoreGui
+                local Enabled = false
+                local Settings = {
+                    ["true"] = {
+                        Color = Color3.fromRGB(0, 190, 0),
+                        Size = UDim2.new(0, 240, 0, 56)
+                    },
+                    ["false"] = {
+                        Color = Color3.fromRGB(190, 0, 0),
+                        Size = UDim2.new(0, 240, 0, 0)
+                    }
+                }
+                plr.CharacterAdded:Connect(
+                    function(chr)
+                        chr:WaitForChild("Humanoid").Changed:Connect(
+                            function(fa)
+                                if fa == "WalkSpeed" then
+                                    chr.Humanoid.WalkSpeed = _G.PhenomHubSpeed or 30
+                                end
+                            end
+                        )
+                    end
+                )
+
+                plr.CharacterAdded:Connect(
+                    function(chr)
+                        chr:WaitForChild("Humanoid").Changed:Connect(
+                            function(fa)
+                                if fa == "JumpPower" then
+                                    chr.Humanoid.JumpPower = _G.PhenomHubJump or 100
+                                end
+                            end
+                        )
+                    end
+                )
+
+                plr.Character.Humanoid.Changed:Connect(
+                    function(fa)
+                        if fa == "JumpPower" then
+                            plr.Character.Humanoid.JumpPower = _G.PhenomHubJump or 100
+                        end
+                    end
+                )
+
+                plr.Character.Humanoid.Changed:Connect(
+                    function(fa)
+                        if fa == "WalkSpeed" then
+                            plr.Character.Humanoid.WalkSpeed = _G.PhenomHubSpeed or 30
+                        end
+                    end
+                )
+
+                UI.Frame.Frame.LPD.Jump.Input.FocusLost:Connect(
+                    function()
+                        _G.PhenomHubJump = tonumber(UI.Frame.Frame.LPD.Jump.Input.Text)
+                        plr.Character.Humanoid.JumpPower = _G.PhenomHubJump
+                    end
+                )
+                UI.Frame.Frame.LPD.Speed.Input.FocusLost:Connect(
+                    function()
+                        _G.PhenomHubSpeed = tonumber(UI.Frame.Frame.LPD.Speed.Input.Text)
+                        plr.Character.Humanoid.WalkSpeed = _G.PhenomHubSpeed
+                    end
+                )
+
+                UI.Frame.Frame.LP.Button.MouseButton1Click:Connect(
+                    function()
+                        Enabled = not Enabled
+
+                        UI.Frame.Frame.LPD.Visible = Enabled
+                        UI.Frame.Frame.LP.Button.BackgroundColor3 = Settings[tostring(Enabled)].Color
+                    end
+                )
+
+                game:GetService("CoreGui").ScreenGui.Frame.Frame.AB.Label.Text = "Dunk"
+
+                UI.Frame.Frame.AB.Button.MouseButton1Click:Connect(
+                    function()
+                        game:GetService("StarterGui"):SetCore(
+                            "SendNotification",
+                            {
+                                Title = "Keybinds",
+                                Text = "Aim1 = v, Aim2 = f, Default = q, Dunk = y",
+                                Duration = 10,
+                                Button1 = "OK!"
+                            }
+                        )
+                        local Player = game:GetService("Players").LocalPlayer
+                        local Workspace = game:GetService("Workspace")
+                        local Aiming = (Workspace:FindFirstChild("Aim") or Workspace:FindFirstChild("Aim2"))
+
+                        if Aiming then
+                            Aiming:Remove()
+                        end
+
+                        local Mouse = Player:GetMouse()
+                        local Prefix = {
+                            Dunk = "y",
+                            Aim = "v",
+                            Aim2 = "f",
+                            Default = "q"
+                        }
+
+                        Mouse.KeyDown:Connect(
+                            function(Key)
+                                if Key == Prefix.Dunk then
+                                    if Aiming and Wait() then
+                                        local Folder = Player.Character:FindFirstChildOfClass("Folder")
+                                        if Folder and Wait() then
+                                            local BodyPosition = Instance.new("BodyPosition", Folder.Handle)
+                                            BodyPosition.D = 250
+                                            BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                                            local Run
+                                            Run =
+                                                game:GetService("RunService").Heartbeat:Connect(
+                                                function()
+                                                    Folder.Handle.CFrame = (Aiming.CFrame) * CFrame.Angles(0, 0, 0)
+                                                    BodyPosition.Position = Aiming.Position
+                                                    Folder.Handle.Velocity = Vector3.new(30, 0, 0)
+                                                end
+                                            )
+                                            Wait(1.2)
+                                            if Run then
+                                                Run:Disconnect()
+                                            end
+                                            Folder.Handle:FindFirstChildOfClass("BodyPosition"):Remove()
+                                        end
+                                    end
+                                end
+                                if Key == Prefix.Aim then
+                                    if Workspace:FindFirstChild("Aim2") then
+                                        Workspace:FindFirstChild("Aim2"):Remove()
+                                    end
+                                    if Aiming then
+                                        Aiming:Remove()
+                                    end
+                                    local Aim = Instance.new("Part", Workspace)
+                                    Aim.Anchored = true
+                                    Aim.CanCollide = false
+                                    Aim.Transparency = 0.5
+                                    Aim.Size = Vector3.new(10, 10, 10)
+                                    Aim.Name = "Aim"
+                                    while task.wait() do
+                                        Aim.CFrame = CFrame.new(-16.9939995, 41.5, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 43, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 42.5, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 44.5, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 44, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 40, -45.9039993)
+                                    end
+                                end
+                                if Key == Prefix.Aim2 then
+                                    if Workspace:FindFirstChild("Aim") then
+                                        Workspace:FindFirstChild("Aim"):Remove()
+                                    end
+                                    if Aiming then
+                                        Aiming:Remove()
+                                    end
+                                    local Aim2 = Instance.new("Part", Workspace)
+                                    Aim2.Anchored = true
+                                    Aim2.CanCollide = false
+                                    Aim2.Transparency = 0.5
+                                    Aim2.Size = Vector3.new(10, 10, 10)
+                                    Aim2.Name = "Aim2"
+                                    while task.wait() do
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 41.5, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 43, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 42.5, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 44.5, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 44, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 40, 142.925003)
+                                    end
+                                end
+                                if Key == Prefix.Default then
+                                    for _, v in next, Workspace:GetDescendants() do
+                                        if v:IsA("Part") and v.Name == "Aim" or v.Name == "Aim2" then
+                                            v:Remove()
+                                        end
+                                    end
+                                end
+                            end
+                        )
+                    end
+                )
+
+                local Dunk = UI.Frame.Frame.AB:Clone()
+                Dunk.Name = "DK"
+                Dunk.Parent = UI.Frame.Frame
+                game:GetService("CoreGui").ScreenGui.Frame.Frame.DK.Label.Text = "AimBot"
+                Dunk.Button.MouseButton1Click:Connect(
+                    function()
+                        game:GetService("StarterGui"):SetCore(
+                            "SendNotification",
+                            {
+                                Title = "Keybinds",
+                                Text = "Aim1 = v, Aim2 = f, Default = q, Aimbot = x",
+                                Duration = 10,
+                                Button1 = "OK!"
+                            }
+                        )
+                        local Player = game:GetService("Players").LocalPlayer
+                        local Workspace = game:GetService("Workspace")
+                        local Aiming = (Workspace:FindFirstChild("Aim") or Workspace:FindFirstChild("Aim2"))
+
+                        if Aiming then
+                            Aiming:Remove()
+                        end
+
+                        local Mouse = Player:GetMouse()
+                        local Prefix = {
+                            Dunk = "x",
+                            Aim = "v",
+                            Aim2 = "f",
+                            Default = "q"
+                        }
+
+                        Mouse.KeyDown:Connect(
+                            function(Key)
+                                if Key == Prefix.Dunk then
+                                    if Aiming and Wait() then
+                                        local Folder = Player.Character:FindFirstChildOfClass("Folder")
+                                        if Folder and Wait() then
+                                            local BodyPosition = Instance.new("BodyPosition", Folder.Handle)
+                                            BodyPosition.D = 250
+                                            BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                                            Folder.Handle:FindFirstChildOfClass("Weld"):Remove()
+                                            local Run
+                                            Run =
+                                                game:GetService("RunService").Heartbeat:Connect(
+                                                function()
+                                                    Folder.Handle.CFrame = (Aiming.CFrame) * CFrame.Angles(0, 0, 0)
+                                                    BodyPosition.Position = Aiming.Position
+                                                    Folder.Handle.Velocity = Vector3.new(30, 0, 0)
+                                                    for _, v in next, Player.Character:GetDescendants() do
+                                                        if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+                                                            v["Velocity"] = Vector3.new(30, 0, 0)
+                                                        end
+                                                    end
+                                                end
+                                            )
+                                            Wait(1.2)
+                                            if Run then
+                                                Run:Disconnect()
+                                            end
+                                            Folder.Handle:FindFirstChildOfClass("BodyPosition"):Remove()
+                                        end
+                                    end
+                                end
+                                if Key == Prefix.Aim then
+                                    if Workspace:FindFirstChild("Aim2") then
+                                        Workspace:FindFirstChild("Aim2"):Remove()
+                                    end
+                                    if Aiming then
+                                        Aiming:Remove()
+                                    end
+                                    local Aim = Instance.new("Part", Workspace)
+                                    Aim.Anchored = true
+                                    Aim.CanCollide = false
+                                    Aim.Transparency = 0.5
+                                    Aim.Size = Vector3.new(10, 10, 10)
+                                    Aim.Name = "Aim"
+                                    while task.wait() do
+                                        Aim.CFrame = CFrame.new(-16.9939995, 41.5, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 43, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 42.5, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 44.5, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 44, -45.9039993)
+                                        task.wait()
+                                        Aim.CFrame = CFrame.new(-16.9939995, 40, -45.9039993)
+                                    end
+                                end
+                                if Key == Prefix.Aim2 then
+                                    if Workspace:FindFirstChild("Aim") then
+                                        Workspace:FindFirstChild("Aim"):Remove()
+                                    end
+                                    if Aiming then
+                                        Aiming:Remove()
+                                    end
+                                    local Aim2 = Instance.new("Part", Workspace)
+                                    Aim2.Anchored = true
+                                    Aim2.CanCollide = false
+                                    Aim2.Transparency = 0.5
+                                    Aim2.Size = Vector3.new(10, 10, 10)
+                                    Aim2.Name = "Aim2"
+                                    while task.wait() do
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 41.5, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 43, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 42.5, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 44.5, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 44, 142.925003)
+                                        task.wait()
+                                        Aim2.CFrame = CFrame.new(-16.8939991, 40, 142.925003)
+                                    end
+                                end
+                                if Key == Prefix.Default then
+                                    for _, v in next, Workspace:GetDescendants() do
+                                        if v:IsA("Part") and v.Name == "Aim" or v.Name == "Aim2" then
+                                            v:Remove()
+                                        end
+                                    end
+                                end
+                            end
+                        )
+                    end
+                )
+
+                local MouseControls = UI.Frame.Frame.AB:Clone()
+                MouseControls.Name = "MC"
+                MouseControls.Parent = UI.Frame.Frame
+                game:GetService("CoreGui").ScreenGui.Frame.Frame.MC.Label.Text = "MouseControl"
+                MouseControls.Button.MouseButton1Click:Connect(
+                    function()
+                        game:GetService("StarterGui"):SetCore(
+                            "SendNotification",
+                            {
+                                Title = "Keybinds",
+                                Text = "MouseControl = e, StopMouseControl = u",
+                                Duration = 10,
+                                Button1 = "OK!"
+                            }
+                        )
+                        local Player = game:GetService("Players").LocalPlayer
+                        local Workspace = game:GetService("Workspace")
+                        local Run
+
+                        local Mouse = Player:GetMouse()
+                        local Prefix = {
+                            MouseControl = "e",
+                            Stop = "u"
+                        }
+
+                        Mouse.KeyDown:Connect(
+                            function(Key)
+                                if Key == Prefix.MouseControl then
+                                    local Folder = Player.Character:FindFirstChildOfClass("Folder")
+                                    if Folder and Wait() then
+                                        local BodyPosition = Instance.new("BodyPosition", Folder.Handle)
+                                        BodyPosition.D = 250
+                                        BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                                        Folder.Handle:FindFirstChildOfClass("Weld"):Remove()
+                                        Run =
+                                            game:GetService("RunService").Heartbeat:Connect(
+                                            function()
+                                                Folder.Handle.CFrame =
+                                                    (CFrame.new(
+                                                    Mouse.Hit.Position.X,
+                                                    Mouse.Hit.Position.Y,
+                                                    Mouse.Hit.Position.Z
+                                                )) * CFrame.Angles(0, 0, 0)
+                                                BodyPosition.Position =
+                                                    Vector3.new(
+                                                    Mouse.Hit.Position.X,
+                                                    Mouse.Hit.Position.Y,
+                                                    Mouse.Hit.Position.Z
+                                                )
+                                                Folder.Handle.Velocity = Vector3.new(30, 0, 0)
+                                                for _, v in next, Player.Character:GetDescendants() do
+                                                    if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+                                                        v.Velocity = Vector3.new(30, 0, 0)
+                                                    end
+                                                end
+                                            end
+                                        )
+                                    end
+                                end
+                                if Key == Prefix.Stop then
+                                    if Run then
+                                        Run:Disconnect()
+                                    end
+                                    Folder.Handle:FindFirstChildOfClass("BodyPosition"):Remove()
+                                end
+                            end
+                        )
+                    end
+                )
+
+                local SilentAimbot = UI.Frame.Frame.AB:Clone()
+                SilentAimbot.Name = "SA"
+                SilentAimbot.Parent = UI.Frame.Frame
+                game:GetService("CoreGui").ScreenGui.Frame.Frame.SA.Label.Text = "SilentAimbot"
+                MouseControls.Button.MouseButton1Click:Connect(
+                    function()
+                        local Player = game.Players.LocalPlayer
+                        local Camera = workspace.CurrentCamera
+                        Holding = false
+                        e = false
+                        isdoing = false
+                        function findGoals()
+                            for i, v in pairs(workspace:GetDescendants()) do
+                                if v.Name == "Goal" then
+                                    v.Parent = workspace
+                                end
+                            end
+                        end
+                        local function findClosestPart(position)
+                            local closestPart, closestPartMagnitude
+                            local tmpMagnitude
+                            for i, v in pairs(workspace:GetChildren()) do
+                                if v.Name == "Goal" then
+                                    if closestPart then
+                                        tmpMagnitude = (position - v.Position).magnitude
+                                        if tmpMagnitude < closestPartMagnitude then
+                                            closestPart = v
+                                            closestPartMagnitude = tmpMagnitude
+                                        end
+                                    else
+                                        closestPart = v
+                                        closestPartMagnitude = (position - v.Position).magnitude
+                                    end
+                                end
+                            end
+                            return closestPart
+                        end
+                        --//vb
+                        local player = game.Players.LocalPlayer
+                        local camera = game.Workspace.CurrentCamera
+                        local character = player.Character
+                        local head = character.Head
+                        local torso = character.Torso
+                        findGoals()
+                        local function cam()
+                            while wait() do
+                                if isdoing == true then
+                                    local pos = head.Position
+                                    local partyGoal = findClosestPart(head.Position)
+                                    local lookAt = partyGoal.Position + Vector3.new(0, 90, 0)
+                                    local mag = (character.PrimaryPart.Position - partyGoal.Position).magnitude
+                                    local cameraCFrame = CFrame.new(pos, lookAt)
+                                    Camera.CFrame = cameraCFrame
+                                else
+                                    return nil
+                                end
+                            end
+                        end
+
+                        game.Players.LocalPlayer.Character.ChildAdded:Connect(
+                            function(child)
+                                local pv = game.Players.LocalPlayer.Character.Basketball
+                                local UIS = game:GetService("UserInputService")
+
+                                game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Jumping:Connect(
+                                    function()
+                                        isdoing = true
+                                        if game.Players.LocalPlayer.Character.Basketball then
+                                            local lookthat =
+                                                findClosestPart(game.Players.LocalPlayer.Character.Torso.Position)
+                                            local pvm =
+                                                (lookthat.Position - game.Players.LocalPlayer.Character.Torso.Position).magnitude
+                                            if pvm >= 30 then
+                                                if pvm <= 44 then
+                                                    pv.PowerValue.Value = 75
+                                                    cam()
+                                                end
+                                            end
+                                            local lookthat =
+                                                findClosestPart(game.Players.LocalPlayer.Character.Torso.Position)
+                                            local pvm =
+                                                (lookthat.Position - game.Players.LocalPlayer.Character.Torso.Position).magnitude
+                                            if pvm >= 45 then
+                                                if pvm <= 53 then
+                                                    pv.PowerValue.Value = 80
+                                                    cam()
+                                                end
+                                            end
+                                            local lookthat =
+                                                findClosestPart(game.Players.LocalPlayer.Character.Torso.Position)
+                                            local pvm =
+                                                (lookthat.Position - game.Players.LocalPlayer.Character.Torso.Position).magnitude
+                                            if pvm >= 54 then
+                                                if pvm <= 66 then
+                                                    pv.PowerValue.Value = 85
+                                                    cam()
+                                                end
+                                            end
+                                            local lookthat =
+                                                findClosestPart(game.Players.LocalPlayer.Character.Torso.Position)
+                                            local pvm =
+                                                (lookthat.Position - game.Players.LocalPlayer.Character.Torso.Position).magnitude
+                                            if pvm >= 67 then
+                                                if pvm <= 76 then
+                                                    pv.PowerValue.Value = 90
+                                                    cam()
+                                                end
+                                            end
+                                            local lookthat =
+                                                findClosestPart(game.Players.LocalPlayer.Character.Torso.Position)
+                                            local pvm =
+                                                (lookthat.Position - game.Players.LocalPlayer.Character.Torso.Position).magnitude
+                                            if pvm >= 77 then
+                                                if pvm <= 84 then
+                                                    pv.PowerValue.Value = 95
+                                                    cam()
+                                                end
+                                            end
+                                            local lookthat =
+                                                findClosestPart(game.Players.LocalPlayer.Character.Torso.Position)
+                                            local pvm =
+                                                (lookthat.Position - game.Players.LocalPlayer.Character.Torso.Position).magnitude
+                                            if pvm >= 85 then
+                                                if pvm <= 91 then
+                                                    pv.PowerValue.Value = 100
+                                                    cam()
+                                                end
+                                            end
+                                        end
+                                    end
+                                )
+                            end
+                        )
+
+                        local UIS = game:service("UserInputService")
+                        UIS.InputBegan:connect(
+                            function(l)
+                                if l.UserInputType == Enum.UserInputType.MouseButton1 then
+                                    isdoing = false
+                                end
+                            end
+                        )
+                    end
+                )
+            end
+        )
+    end
+)
